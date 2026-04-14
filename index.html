@@ -1,10 +1,7 @@
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
-
-body, .wrap {
-  font-family: 'Inter', sans-serif;
-};
+body, .wrap {font-family: 'Inter', sans-serif;};
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body, .wrap { font-family: 'Hanken Grotesk', var(--font-sans), sans-serif; }
   .wrap { padding: 0; }
@@ -34,7 +31,7 @@ body, .wrap {
   .subsection-label { font-size: 11px; font-weight: 700; color: var(--color-text-secondary); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 0.5px solid var(--color-border-tertiary); }
   .item { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; cursor: pointer; }
   .item:hover .checkmark { border-color: #240354; }
-  .checkmark { width: 18px; height: 18px; border: 1.5px solid var #B8A9D9; border-radius: 5px; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .checkmark { width: 18px; height: 18px; border: 1.5px solid var (#B8A9D9); border-radius: 5px; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
   .checkmark.checked { background: #240354; border-color: #240354; }
   .checkmark.checked::after { content: ''; display: block; width: 5px; height: 9px; border: 2px solid #fff; border-top: none; border-left: none; transform: rotate(45deg) translate(-1px, -1px); }
   .item-text { font-size: 13px; color: var(--color-text-primary); line-height: 1.5; flex: 1; }
