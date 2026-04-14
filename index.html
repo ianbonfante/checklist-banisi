@@ -1,0 +1,224 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;700&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body, .wrap { font-family: 'Hanken Grotesk', var(--font-sans), sans-serif; }
+  .wrap { padding: 0; }
+  .header { background: #240354; padding: 2rem 2rem 1.5rem; border-radius: 14px 14px 0 0; }
+  .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+  .logo-text { font-family: 'Hanken Grotesk', sans-serif; font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 2px; }
+  .header-sub { font-size: 13px; color: rgba(255,255,255,0.6); letter-spacing: 1px; text-transform: uppercase; }
+  .header h1 { font-size: 18px; font-weight: 500; color: #fff; margin-top: 1rem; }
+  .header p { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+  .progress-bar-wrap { margin-top: 1.2rem; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 6px; }
+  .progress-track { height: 6px; background: rgba(255,255,255,0.15); border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; background: #EEB1D7; border-radius: 99px; transition: width 0.3s; }
+  .body { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-top: none; border-radius: 0 0 14px 14px; }
+  .section { border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .section:last-child { border-bottom: none; }
+  .section-header { display: flex; align-items: center; gap: 10px; padding: 1rem 1.5rem 0.75rem; cursor: pointer; user-select: none; }
+  .section-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .section-title-wrap { flex: 1; }
+  .section-title { font-size: 14px; font-weight: 700; color: var(--color-text-primary); letter-spacing: 0.5px; }
+  .section-count { font-size: 11px; color: var(--color-text-secondary); margin-top: 1px; }
+  .section-chevron { font-size: 11px; color: var(--color-text-tertiary); transition: transform 0.2s; }
+  .section-chevron.open { transform: rotate(90deg); }
+  .items { padding: 0 1.5rem 1rem 1.5rem; display: none; }
+  .items.open { display: block; }
+  .subsection { margin-bottom: 0.75rem; }
+  .subsection-label { font-size: 11px; font-weight: 700; color: var(--color-text-secondary); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .item { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; cursor: pointer; }
+  .item:hover .checkmark { border-color: #240354; }
+  .checkmark { width: 18px; height: 18px; border: 1.5px solid var(--color-border-secondary); border-radius: 5px; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .checkmark.checked { background: #240354; border-color: #240354; }
+  .checkmark.checked::after { content: ''; display: block; width: 5px; height: 9px; border: 2px solid #fff; border-top: none; border-left: none; transform: rotate(45deg) translate(-1px, -1px); }
+  .item-text { font-size: 13px; color: var(--color-text-primary); line-height: 1.5; flex: 1; }
+  .item-text.checked-text { color: var(--color-text-secondary); text-decoration: line-through; }
+  .item-tag { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px; margin-left: 6px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+  .tag-required { background: #EEB1D7; color: #5A0030; }
+  .tag-optional { background: #B2F56A22; color: #3B6D11; border: 1px solid #B2F56A88; }
+  .tag-email { background: #00AFEC22; color: #185FA5; border: 1px solid #00AFEC88; }
+  .footer { padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-top: 0.5px solid var(--color-border-tertiary); }
+  .footer-brand { font-size: 11px; color: var(--color-text-tertiary); }
+  .footer-brand span { color: #240354; font-weight: 700; }
+  .reset-btn { font-size: 12px; padding: 5px 14px; border-radius: 99px; border: 1px solid var(--color-border-secondary); background: transparent; color: var(--color-text-secondary); cursor: pointer; font-family: inherit; }
+  .reset-btn:hover { background: var(--color-background-secondary); }
+</style>
+
+<div class="wrap">
+  <div class="header">
+    <div class="header-top">
+      <div class="logo-text">FENÓMENA</div>
+      <div class="header-sub">x Banisi</div>
+    </div>
+    <h1>Checklist de Accesos — Campaña de Medios</h1>
+    <p>Comparte este link con tu equipo para completar todos los accesos necesarios.</p>
+    <div class="progress-bar-wrap">
+      <div class="progress-label">
+        <span>Progreso</span>
+        <span id="prog-label">0 / 0 completados</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <div class="body" id="checklist-body">
+
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:#EEB1D722;">📘</div>
+        <div class="section-title-wrap">
+          <div class="section-title">META / FACEBOOK & INSTAGRAM</div>
+          <div class="section-count" id="count-0"></div>
+        </div>
+        <div class="section-chevron open">▶</div>
+      </div>
+      <div class="items open" id="section-0">
+        <div class="subsection">
+          <div class="subsection-label">Agregar agencia como partner</div>
+          <div class="item" onclick="toggle(this)"><div class="checkmark"></div><div class="item-text">Agregar a Fenómena como Socio (Partner) con ID <strong>906976752650621</strong> dentro del Business Manager de Banisi.<span class="item-tag tag-required">Requerido</span></div></div>
+          <div class="item" onclick="toggle(this)"><div class="checkmark"></div><div class="item-text">Crear la cuenta publicitaria nueva dentro del Business Manager o confirmarnos si debemos crearlo desde nuestro lado.<span class="item-tag tag-required">Requerido</span></div></div>
+          <div class="item" onclick="toggle(this)"><div class="checkmark"></div><div class="item-text">Asignarnos rol de Administrador de Anuncios en dicha cuenta (si aplica).<span class="item-tag tag-optional">Si aplica</span></div></div>
+          <div class="item" onclick="toggle(this)"><div class="checkmark"></div><div class="item-text">Registrar un método de pago válido (tarjeta de crédito/débito empresarial).<span class="item-tag tag-required">Requerido</span></div></div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-label">Accesos a activos</div>
+          <div class="item" onclick="toggle(this)"><div class="checkmark"></div><div class="item-text">Acceso como Anunciante a la Página de Facebook de la marca.<span class="item-tag tag-required">Requerido</span></div></div>
+          <div class="item" onclick="toggle(this)"><div class="checkmark"></div><div class="item-text">Acceso como Anunciante a la cuenta de Instagram de la marca.<span class="item-tag tag-required">Requerido</span></div></div>
+          <div class="item" onclick="toggle(this)"><div class="checkmark"></div><div class="item-text">Acceso al Pixel de Préstamos Personales y evento del mismo.<span class="item-tag tag-required">Requerido</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:#00AFEC22;">🔵</div>
+        <div class="section-title-wrap">
+          <div class="section-title">GOOGLE ADS</div>
+          <div class="section-count" id="count-1"></div>
+        </div>
+        <div class="section-chevron">▶</div>
+      </div>
+      <div class="items" id="section-1">
+        <div class="subsection">
+          <div class="subsection-label">Acceso al MCC</div>
+          <div class="item" onclick="toggle(this)"><div class="checkmark"></div><div class="item-text">Otorgar acceso de Administrador al MCC de Banisi a: <strong>medios@fenomenadigital.com</strong><span class="item-tag tag-email">Email</span></div></div>
+          <div class="item" onclick="toggle(this)"><div class="checkmark"></div><div class="item-text">Otorgar acceso de Administrador al MCC de Banisi a: <strong>belkys@fenomenadigital.com</strong><span class="item-tag tag-email">Email</span></div></div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-label">Accesos y configuración</div>
+          <div class="item" onclick="toggle(this)"><div class="checkmark"></div><div class="item-text">Acceso de edición a Google Tag Manager.<span class="item-tag tag-required">Requerido</span></div></div>
+          <div class="item" onclick="toggle(this)"><div class="checkmark"></div><div class="item-text">Acceso de edición a Google Analytics 4 (GA4) — crear propiedad si no existe.<span class="item-tag tag-required">Requerido</span></div></div>
+          <div class="item" onclick="toggle(this)"><div class="checkmark"></div><div class="item-text">Acceso a Google Search Console.<span class="item-tag tag-required">Requerido</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:#B2F56A22;">🎵</div>
+        <div class="section-title-wrap">
+          <div class="section-title">TIKTOK ADS</div>
+          <div class="section-count" id="count-2"></div>
+        </div>
+        <div class="section-chevron">▶</div>
+      </div>
+      <div class="items" id="section-2">
+        <div class="subsection">
+          <div class="subsection-label">Creación de cuenta</div>
+          <div class="item" onclick="toggle(this)"><div class="checkmark"></div><div class="item-text">Compartir nombre legal de la empresa y RUC (para verificación de negocio).<span class="item-tag tag-required">Requerido</span></div></div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-label">Accesos</div>
+          <div class="item" onclick="toggle(this)"><div class="checkmark"></div><div class="item-text">Acceso a la Página de TikTok de la marca.<span class="item-tag tag-required">Requerido</span></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand">TM & © 2024 <span>FENÓMENA</span>. Todos los derechos reservados.</div>
+    <button class="reset-btn" onclick="resetAll()">Reiniciar</button>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'fenomena_banisi_checklist_v1';
+
+function saveState() {
+  const items = document.querySelectorAll('.item');
+  const state = Array.from(items).map(i => i.querySelector('.checkmark').classList.contains('checked'));
+  try { window.storage && window.storage.set(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+  localStorage && localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function loadState() {
+  try {
+    const raw = localStorage && localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const state = JSON.parse(raw);
+      const items = document.querySelectorAll('.item');
+      items.forEach((item, i) => { if (state[i]) applyCheck(item, true); });
+    }
+  } catch(e) {}
+  updateProgress();
+  updateAllCounts();
+}
+
+function applyCheck(item, checked) {
+  const mark = item.querySelector('.checkmark');
+  const text = item.querySelector('.item-text');
+  if (checked) { mark.classList.add('checked'); text.classList.add('checked-text'); }
+  else { mark.classList.remove('checked'); text.classList.remove('checked-text'); }
+}
+
+function toggle(item) {
+  const mark = item.querySelector('.checkmark');
+  const checked = !mark.classList.contains('checked');
+  applyCheck(item, checked);
+  updateProgress();
+  updateAllCounts();
+  saveState();
+}
+
+function toggleSection(header) {
+  const chev = header.querySelector('.section-chevron');
+  const sectionIndex = Array.from(document.querySelectorAll('.section-header')).indexOf(header);
+  const items = document.getElementById('section-' + sectionIndex);
+  const isOpen = items.classList.contains('open');
+  items.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+
+function updateProgress() {
+  const all = document.querySelectorAll('.checkmark');
+  const done = document.querySelectorAll('.checkmark.checked');
+  const pct = all.length ? Math.round((done.length / all.length) * 100) : 0;
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = done.length + ' / ' + all.length + ' completados';
+}
+
+function updateAllCounts() {
+  for (let i = 0; i < 3; i++) {
+    const sec = document.getElementById('section-' + i);
+    if (!sec) continue;
+    const all = sec.querySelectorAll('.checkmark');
+    const done = sec.querySelectorAll('.checkmark.checked');
+    const el = document.getElementById('count-' + i);
+    if (el) el.textContent = done.length + ' de ' + all.length + ' completados';
+  }
+}
+
+function resetAll() {
+  document.querySelectorAll('.item').forEach(i => applyCheck(i, false));
+  updateProgress();
+  updateAllCounts();
+  saveState();
+}
+
+loadState();
+updateProgress();
+updateAllCounts();
+</script>
